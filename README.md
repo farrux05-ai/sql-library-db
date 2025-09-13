@@ -4,6 +4,7 @@ About the Project
 
 Ushbu loyiha **Turon Kutubxonasi** uchun boshlang‘ich platforma sifatida ishlab chiqilgan.
 Ma’lumotlar bazasi kutubxona a’zolari, kitoblari va ularning ijaralarini boshqarish uchun yaratilgan.
+----------------------------------------------------------
 
 ##Loyiha orqali quyidagilar amalda ko‘rsatildi:
 
@@ -22,7 +23,7 @@ Oddiy analytics savollari (eng ko‘p kitob o‘qigan a’zo, eng mashhur kitob,
 
 ![ER Diagram](turon_library_er.png)
 
-
+-------------------------------------------------------------
    **Database Schema (DDL)**
   ```sql
   CREATE TABLE members (
@@ -49,7 +50,7 @@ CREATE TABLE loans (
   return_date DATE,
   FOREIGN KEY (mem_id) REFERENCES members(mem_id),
   FOREIGN KEY (book_id) REFERENCES books(book_id)
-);
+);``` `
 
 Example Queries (CRUD + Analytics)
 1. CRUD misollari
@@ -96,8 +97,8 @@ FROM loans l
 JOIN members m ON l.mem_id = m.mem_id
 JOIN books b ON l.book_id = b.book_id
 WHERE l.return_date IS NULL
-  AND l.loan_date < (CURRENT_DATE - INTERVAL 10 DAY);
-🔹 Insights
+  AND l.loan_date < (CURRENT_DATE - INTERVAL 10 DAY); ```` `
+🔹 **Insights**
 
 **Top readers**: eng ko‘p kitob olgan a’zolarni aniqlash
 
@@ -106,6 +107,7 @@ WHERE l.return_date IS NULL
 **Overdue members**: muddatidan oshgan qarzdorlarni kuzatish
 
 **Active vs Inactive users**: kim kutubxonadan muntazam foydalanmoqda?
+-----------------------------------------------
 **Future Improvements**
 
 Jarima tizimi qo‘shish
@@ -115,6 +117,7 @@ Hodimlar jadvali va ularning faoliyatini kuzatish
 Dashboard (Power BI / Tableau) orqali vizual tahlil
 
 Real-time notification (email yoki SMS)
+--------------------------------------------
 **How to Run**
 git clone https://github.com/USERNAME/sql-library-db.git
 library.sql faylini MySQL/MariaDB’da import qiling.
