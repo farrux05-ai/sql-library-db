@@ -5,7 +5,7 @@ About the Project
 Ushbu loyiha **Turon Kutubxonasi** uchun boshlang‘ich platforma sifatida ishlab chiqilgan.
 Ma’lumotlar bazasi kutubxona a’zolari, kitoblari va ularning ijaralarini boshqarish uchun yaratilgan.
 
-Loyiha orqali quyidagilar amalda ko‘rsatildi:
+##Loyiha orqali quyidagilar amalda ko‘rsatildi:
 
 **SQL’da CRUD amallari** (Create, Read, Update, Delete)
 
@@ -13,19 +13,18 @@ Loyiha orqali quyidagilar amalda ko‘rsatildi:
 
 **JOIN query’lari orqali jadvallarni bog‘lash**
 
+-------------------------------------------------------------------
+
+
 Oddiy analytics savollari (eng ko‘p kitob o‘qigan a’zo, eng mashhur kitob, qarzdorlar ro‘yxati
 **Data Model (ER Diagram)**
-   ┌─────────────┐          ┌─────────────┐          ┌─────────────┐
-   │   Members   │ 1     * │    Loans    │ *     1 │    Books    │
-   │─────────────│─────────│─────────────│─────────│─────────────│
-   │ mem_id (PK) │         │ loan_id (PK)│         │ book_id (PK)│
-   │ name        │         │ mem_id (FK) │         │ title       │
-   │ phone_num   │         │ book_id (FK)│         │ author      │
-   │ email       │         │ loan_date   │         │ genre       │
-   │ join_date   │         │ return_date │         │ pub_year    │
-   └─────────────┘         └─────────────┘         └─────────────┘
+## ER Diagram
 
-  Database Schema (DDL)
+![ER Diagram](turon_library_er.png)
+
+
+   **Database Schema (DDL)**
+  ```sql
   CREATE TABLE members (
   mem_id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL,
@@ -33,7 +32,7 @@ Oddiy analytics savollari (eng ko‘p kitob o‘qigan a’zo, eng mashhur kitob,
   email_address VARCHAR(50) UNIQUE,
   join_date DATE DEFAULT (CURRENT_DATE)
 );
-
+  ```sql
 CREATE TABLE books (
   book_id INT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(150) NOT NULL,
@@ -41,7 +40,7 @@ CREATE TABLE books (
   genre VARCHAR(50),
   published_year INT
 );
-
+  ```sql
 CREATE TABLE loans (
   loan_id INT PRIMARY KEY AUTO_INCREMENT,
   mem_id INT,
@@ -51,21 +50,28 @@ CREATE TABLE loans (
   FOREIGN KEY (mem_id) REFERENCES members(mem_id),
   FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
+
 Example Queries (CRUD + Analytics)
 1. CRUD misollari
    -- Yangi a’zo qo‘shish
+
+  ```sql
 INSERT INTO members (name, phone_num, email_address) 
 VALUES ('Ali Karimov', '+998901234567', 'ali@example.com');
 
 -- A’zo telefon raqamini yangilash
+  ```sql
 UPDATE members 
 SET phone_num = '+998998765432'
 WHERE mem_id = 1;
 
 -- Kitobni o‘chirish
+  ```sql
 DELETE FROM books 
 WHERE book_id = 10;
+
 2. Analytics query’lar
+  ```sql
 -- Eng ko‘p kitob o‘qigan 3 a’zo
 SELECT m.name, COUNT(*) AS total_loans
 FROM members m
@@ -75,6 +81,7 @@ ORDER BY total_loans DESC
 LIMIT 3;
 
 -- Eng mashhur 5 ta kitob
+  ```sql
 SELECT b.title, COUNT(*) AS borrow_count
 FROM books b
 JOIN loans l ON b.book_id = l.book_id
@@ -83,6 +90,7 @@ ORDER BY borrow_count DESC
 LIMIT 5;
 
 -- 10 kundan oshib ketgan qarzdorlar
+  ```sql
 SELECT m.name, b.title, l.loan_date
 FROM loans l
 JOIN members m ON l.mem_id = m.mem_id
